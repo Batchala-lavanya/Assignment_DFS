@@ -14,7 +14,8 @@ public class UserDto {
 	@NotNull
 	private int userId;
 	
-	@NotNull
+	@NotNull(message="Name cannot be null")
+	@Size(min=8,max=32,message="Name must be between 8 to 32 charactes")
 	private String name;
 
 	public int getUserId() {

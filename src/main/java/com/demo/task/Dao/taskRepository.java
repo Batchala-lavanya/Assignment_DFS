@@ -10,6 +10,8 @@ import com.demo.task.Entity.User;
 @Repository
 
 public interface taskRepository extends JpaRepository<User,Integer>{
+
+	boolean existsByName(String name);
 	
 	
 }
