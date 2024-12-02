@@ -3,7 +3,7 @@ package com.demo.task.mapper;
 import org.mapstruct.Mapper;
 
 import com.demo.task.Dto.UserDto;
-import com.demo.task.Entity.User;
+import com.demo.task.EntityVO.User;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper{

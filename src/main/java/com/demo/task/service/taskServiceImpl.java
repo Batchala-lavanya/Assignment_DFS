@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import com.demo.task.Bo.UserBo;
 import com.demo.task.Dao.taskRepository;
 import com.demo.task.Dto.UserDto;
-import com.demo.task.Entity.User;
+import com.demo.task.EntityVO.User;
 import com.demo.task.Exceptions.UserAlreadyExistsException;
 import com.demo.task.mapper.UserMapper;
 
@@ -32,11 +32,12 @@ public class taskServiceImpl implements taskService{
 	
 	
 	@Override
-	public UserDto createUser(User user) {
+	public User createUser(UserDto userdto) {
 		// TODO Auto-generated method stub
+		User user=userMapper.toUser(userdto);
 		logger.info("Creating User");
 		User created_user=userBo.createUser(user);
-		return userMapper.toUserDto(created_user);
+		return created_user;
 		
 		
 		
@@ -44,16 +45,16 @@ public class taskServiceImpl implements taskService{
 	}
 
 	
-	public List<UserDto> getAllUsers(){
+	public List<User> getAllUsers(){
 		logger.info("Getting all Users");
 		List<User> user_list=userBo.getAllUsers();
-		return user_list.stream().map(userMapper::toUserDto).collect(Collectors.toList());
-		
+		//return user_list.stream().map(userMapper::toUser()).collect(Collectors.toList());
+		return user_list;
 	}
 	
 	
 	@Override
-	public Optional<UserDto> getByUserId(int userId) {
+	public Optional<User> getByUserId(int userId) {
 		// TODO-generated method stub
 		logger.info("getting user by Id",userId);
 		
@@ -61,7 +62,8 @@ public class taskServiceImpl implements taskService{
 		if(retrived_user==null) {
 			logger.info("no user with userId {}",userId);
 		}
-		return Optional.of(retrived_user.map(userMapper::toUserDto).orElse(null));
+		//return Optional.of(retrived_user.map(userMapper::toUserDto).orElse(null));
+		return retrived_user;
 	}
 
 }

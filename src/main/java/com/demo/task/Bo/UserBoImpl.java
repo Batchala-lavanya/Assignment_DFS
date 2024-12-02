@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.demo.task.Dao.taskRepository;
-import com.demo.task.Entity.User;
+import com.demo.task.EntityVO.User;
 import com.demo.task.Exceptions.UserAlreadyExistsException;
 import com.demo.task.Exceptions.UserNotFoundException;
 @Service

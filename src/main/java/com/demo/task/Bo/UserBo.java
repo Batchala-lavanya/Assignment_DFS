@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.demo.task.Dto.UserDto;
-import com.demo.task.Entity.User;
+import com.demo.task.EntityVO.User;
 
 public interface UserBo {
 	

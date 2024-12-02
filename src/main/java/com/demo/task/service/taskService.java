@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Optional;
 
 import com.demo.task.Dto.UserDto;
-import com.demo.task.Entity.User;
+import com.demo.task.EntityVO.User;
 
 public interface taskService {
 	
-	public UserDto createUser(User user);
+	public User createUser(UserDto userdto);
 	
-	public Optional<UserDto> getByUserId(int userId);
+	public Optional<User> getByUserId(int userdtoId);
 	
-	public List<UserDto> getAllUsers();
+	public List<User> getAllUsers();
 	
 
 }
