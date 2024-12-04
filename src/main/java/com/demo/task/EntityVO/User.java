@@ -33,12 +33,12 @@ public class User {
 	@Column(name="username")
 	private String name;
 	
-	//@JsonIgnore
+	
 	
 	@Column(name="email")
 	private String email;
 	
-	//@JsonIgnore
+	
 	@Size(min=8,max=32)
 	@Column(name="password")
 	private String password;

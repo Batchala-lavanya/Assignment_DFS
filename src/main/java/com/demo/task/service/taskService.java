@@ -10,7 +10,7 @@ public interface taskService {
 	
 	public User createUser(UserDto userdto);
 	
-	public Optional<User> getByUserId(int userdtoId);
+	public Optional<User> getByUserId(int user);
 	
 	public List<User> getAllUsers();
 	

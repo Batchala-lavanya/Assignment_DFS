@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: MyAssignment   # The application name (this must match the configuration in Git)
+  cloud:
+    config:
+      uri: http://localhost:8888
+      
+server:
+	port:8088
+	
+	
+logging:
+  level:
+    org.springframework.cloud.config.client: DEBUG

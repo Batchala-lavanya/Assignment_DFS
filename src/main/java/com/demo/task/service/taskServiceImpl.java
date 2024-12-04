@@ -34,9 +34,10 @@ public class taskServiceImpl implements taskService{
 	@Override
 	public User createUser(UserDto userdto) {
 		// TODO Auto-generated method stub
-		User user=userMapper.toUser(userdto);
+		//UserDto userDto=userMapper.toUserDto(user);
+		User user1=userMapper.toUser(userdto);
 		logger.info("Creating User");
-		User created_user=userBo.createUser(user);
+		User created_user=userBo.createUser(user1);
 		return created_user;
 		
 		

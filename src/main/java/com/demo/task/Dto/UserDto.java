@@ -28,10 +28,12 @@ public class UserDto {
 	}
 	
 
-	public UserDto(int userId,String name) {
+	public UserDto(int userId,String name,String email,String password) {
 		super();
 		this.userId = userId;
 		this.name = name;
+		this.email=email;
+		this.password=password;
 	}
 
 	public int getUserId() {
