@@ -22,19 +22,53 @@ public class UserBoImpl implements UserBo{
 	public static final Logger logger=LoggerFactory.getLogger(UserBoImpl.class);
 	
 	
-	@Override
-	public User createUser(User user) throws UserAlreadyExistsException{
-		logger.info("creating user Bo_Layer");
-		logger.debug("Checking if user with name {} exists", user.getName());
-	    
-		if(userRepo.existsByName(user.getName())) {
-			throw new UserAlreadyExistsException("User is Already Present");	
-		}
-		User user_created=userRepo.save(user);
-		logger.info("user successfull created");
-		
-		return user_created;
+	
+	public User createUser(User user) throws UserAlreadyExistsException {
+	    logger.info("Creating user in Bo_Layer");
+
+	    // Check if the user already exists in the repository
+	    if (userRepo.existsById(user.getUserId())) {
+	        logger.error("Error creating user: User with ID {} already exists", user.getUserId());
+	        throw new UserAlreadyExistsException("User is already present");
+	    }
+
+	    try {
+	        // If the user doesn't exist, save the user to the repository
+	        User userCreated = userRepo.save(user);
+	        logger.info("User successfully created with ID {}", userCreated.getUserId());
+	        return userCreated;
+	    } catch (Exception e) {
+	        // Handle any other unexpected errors here
+	        logger.error("Error creating user: {}", e.getMessage());
+	        throw new RuntimeException("Failed to create user", e);
+	    }
 	}
+
+//	@Override
+//	public User createUser(User user) throws UserAlreadyExistsException{
+//		logger.info("creating user Bo_Layer");
+//		
+//		try
+//		{
+//			User user_created=userRepo.save(user);
+//			logger.info("user successfull created");
+//			return user_created;
+//			
+//		}catch(UserAlreadyExistsException e) {
+//			if(userRepo.existsById(user.getUserId())) {
+//			logger.error("error creating user {}",e.getMessage());
+//			throw new UserAlreadyExistsException("User is Already Present");
+//			}
+//		}
+////	    
+////		if(userRepo.existsById(user.getUserId())) {
+////			throw new UserAlreadyExistsException("User is Already Present");	
+////		}
+////		User user_created=userRepo.save(user);
+////		logger.info("user successfull created");
+//		
+//		//return user_created;
+//	}
 
 	@Override
 	public Optional<User> getByUserId(int userId) throws UserNotFoundException{

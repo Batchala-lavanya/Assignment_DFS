@@ -1,9 +1,6 @@
 package com.demo.task.EntityVO;
 
-
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,14 +9,11 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 //Actual Entity
-@JsonIgnoreProperties(value = {"email", "password"}, allowGetters = true)
+
 @Entity
 @Table(name="Users")
 public class User {
@@ -27,22 +21,29 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="userid")
+	@JsonProperty("userId")
 	private int userId;
 	
-	@NotNull(message="Name should not be empty")
+	@NotBlank(message="Name should not be empty")
 	@Column(name="username")
+	@JsonProperty("name")
 	private String name;
 	
 	
 	
 	@Column(name="email")
+	@Email(message="Email is invalid")
+	@NotBlank(message="Email is invalid")
+	@JsonProperty("email")
 	private String email;
 	
 	
-	@Size(min=8,max=32)
+	@Size(min=8,max=12,message="Password should be between 8 to 12 characters")
 	@Column(name="password")
+	@JsonProperty("password")
 	private String password;
 	
+
 	
 	public User() {
 		

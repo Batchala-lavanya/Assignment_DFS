@@ -1,22 +1,19 @@
 package com.demo.task.service;
 
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.stereotype.Service;
 
 import com.demo.task.Bo.UserBo;
-import com.demo.task.Dao.taskRepository;
 import com.demo.task.Dto.UserDto;
 import com.demo.task.EntityVO.User;
 import com.demo.task.Exceptions.UserAlreadyExistsException;
+import com.demo.task.Exceptions.UserNotFoundException;
 import com.demo.task.mapper.UserMapper;
 
 @Service
@@ -38,6 +35,9 @@ public class taskServiceImpl implements taskService{
 		User user1=userMapper.toUser(userdto);
 		logger.info("Creating User");
 		User created_user=userBo.createUser(user1);
+		if(created_user==null) {
+			throw new UserAlreadyExistsException("user is existing already");
+		}
 		return created_user;
 		
 		
@@ -49,7 +49,9 @@ public class taskServiceImpl implements taskService{
 	public List<User> getAllUsers(){
 		logger.info("Getting all Users");
 		List<User> user_list=userBo.getAllUsers();
-		//return user_list.stream().map(userMapper::toUser()).collect(Collectors.toList());
+		if(user_list.isEmpty()) {
+			logger.info("Users_list is empty");
+		}
 		return user_list;
 	}
 	
@@ -60,8 +62,9 @@ public class taskServiceImpl implements taskService{
 		logger.info("getting user by Id",userId);
 		
 		Optional<User> retrived_user=userBo.getByUserId(userId);
-		if(retrived_user==null) {
+		if(retrived_user.isEmpty()) {
 			logger.info("no user with userId {}",userId);
+			throw new UserNotFoundException("User is Not found");
 		}
 		//return Optional.of(retrived_user.map(userMapper::toUserDto).orElse(null));
 		return retrived_user;

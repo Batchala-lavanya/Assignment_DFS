@@ -1,26 +1,28 @@
 package com.demo.task.Dto;
 
-import jakarta.validation.constraints.NotNull;
-
+import jakarta.persistence.Column;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
-@AllArgsConstructor
+//@AllArgsConstructor
 
 public class UserDto {
 	//@NotNull
 	private int userId;
 	
-//	@NotNull(message="Name cannot be null")
-//	@Size(min=8,max=32,message="Name must be between 8 to 32 charactes")
+	@NotBlank(message="Name cannot be null")
+	@Size(min=8,max=32,message="Name must be between 8 to 32 charactes")
 	private String name;
 	
+	@Email(message="Email is invalid")
+	@NotBlank(message="Email is invalid")
 	private String email;
 	
+	@Size(min=8,max=12,message="Password should be between 8 to 12 characters")
+	@Column(name="password")
 	private String password;
 	
 	public UserDto() {
