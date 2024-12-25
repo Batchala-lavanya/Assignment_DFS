@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+    <h1>User Registration</h1>
+    <form action="/api/myassignment/registerUser" method="POST">
+        <label for="name">Name</label>
+        <input type="text" name="name" required />
+        
+        <label for="email">Email</label>
+        <input type="email" name="email" required />
+        
+        <label for="password">Password</label>
+        <input type="password" name="password" required />
+        
+        <button type="submit">Register</button>
+    </form>
+    <p th:if="${error}" style="color: red;">${error}</p>
+</body>
+</html>

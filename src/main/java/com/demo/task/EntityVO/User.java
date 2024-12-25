@@ -1,7 +1,5 @@
 package com.demo.task.EntityVO;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -21,12 +19,12 @@ public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="userid")
-	@JsonProperty("userId")
+	//@JsonProperty("userId")
 	private int userId;
 	
 	@NotBlank(message="Name should not be empty")
-	@Column(name="username")
-	@JsonProperty("name")
+	@Column(name="name")
+	//@JsonProperty("name")
 	private String name;
 	
 	
@@ -34,13 +32,13 @@ public class User {
 	@Column(name="email")
 	@Email(message="Email is invalid")
 	@NotBlank(message="Email is invalid")
-	@JsonProperty("email")
+	//@JsonProperty("email")
 	private String email;
 	
 	
 	@Size(min=8,max=12,message="Password should be between 8 to 12 characters")
 	@Column(name="password")
-	@JsonProperty("password")
+	//@JsonProperty("password")
 	private String password;
 	
 

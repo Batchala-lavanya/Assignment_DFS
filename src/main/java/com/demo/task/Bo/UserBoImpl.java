@@ -21,6 +21,9 @@ public class UserBoImpl implements UserBo{
 	
 	public static final Logger logger=LoggerFactory.getLogger(UserBoImpl.class);
 	
+
+	
+	
 	
 	
 	public User createUser(User user) throws UserAlreadyExistsException {
@@ -93,6 +96,20 @@ public class UserBoImpl implements UserBo{
 			logger.warn("users_list is empty");
 		}
 		return list_users;
+	}
+
+	@Override
+	public boolean authenticate(String email, String password) {
+		// TODO Auto-generated method stub
+		
+		
+		User user=userRepo.findByEmail(email);
+		if(user!=null) {
+			return user.getPassword().equals(password);
+			
+			
+		}
+		return false;
 	}
 
 }

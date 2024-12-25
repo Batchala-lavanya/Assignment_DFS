@@ -16,6 +16,8 @@ import com.demo.task.Exceptions.UserAlreadyExistsException;
 import com.demo.task.Exceptions.UserNotFoundException;
 import com.demo.task.mapper.UserMapper;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class taskServiceImpl implements taskService{
     private static final Logger logger = LoggerFactory.getLogger(taskServiceImpl.class);
@@ -28,6 +30,9 @@ public class taskServiceImpl implements taskService{
 	public UserMapper userMapper;
 	
 	
+	
+	
+	@Transactional
 	@Override
 	public User createUser(UserDto userdto) {
 		// TODO Auto-generated method stub
@@ -62,12 +67,27 @@ public class taskServiceImpl implements taskService{
 		logger.info("getting user by Id",userId);
 		
 		Optional<User> retrived_user=userBo.getByUserId(userId);
-		if(retrived_user.isEmpty()) {
+		if(!retrived_user.isPresent()) {
 			logger.info("no user with userId {}",userId);
 			throw new UserNotFoundException("User is Not found");
 		}
 		//return Optional.of(retrived_user.map(userMapper::toUserDto).orElse(null));
 		return retrived_user;
+	}
+
+	@Override
+	public boolean authenticate(String email, String password) {
+		// TODO Auto-generated method stub
+		try {
+			boolean value=userBo.authenticate(email, password);
+			if(value==true) {
+				return true;
+			}
+		
+		}catch(UserNotFoundException e) {
+			return false;
+		}
+		return false;
 	}
 
 }

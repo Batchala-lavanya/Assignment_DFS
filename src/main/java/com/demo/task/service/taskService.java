@@ -8,6 +8,8 @@ import com.demo.task.EntityVO.User;
 
 public interface taskService {
 	
+	
+	public boolean authenticate(String email,String password);
 	public User createUser(UserDto userdto);
 	
 	public Optional<User> getByUserId(int user);

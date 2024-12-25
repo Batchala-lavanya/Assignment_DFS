@@ -19,8 +19,11 @@ import com.demo.task.Dto.UserDto;
 import com.demo.task.EntityVO.User;
 import com.demo.task.Exceptions.ErrorResponse;
 import com.demo.task.Exceptions.UserAlreadyExistsException;
+import com.demo.task.Exceptions.UserNotFoundException;
 import com.demo.task.service.taskService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 
 
@@ -40,7 +43,9 @@ public class taskController {
 		super();
 		this.taskSer = taskSer;
 	}
-
+	
+	
+	
 
 	@GetMapping("/healthCheck/{value}")
 	
@@ -79,7 +84,10 @@ public class taskController {
 	    }
 
 	}
-
+	
+	@Operation(summary = "Creates a new User")
+    @ApiResponse(responseCode = "201", description = "Created User")
+	@ApiResponse(responseCode = "400", description ="Bad Request")
 	
 	@PostMapping("/createUser")
 	public ResponseEntity<?> createUser(@Valid @RequestBody UserDto userdto) throws UserAlreadyExistsException {
@@ -94,25 +102,38 @@ public class taskController {
 	    }
 	}
 
-	
+	@Operation(summary = "Retrive User")
+    @ApiResponse(responseCode = "200", description = "Ok User retrived")
 	@GetMapping("/retriveUser/{id}")
-	public ResponseEntity<Optional<User>> getByUserId(@PathVariable("id") Integer id) {
-		logger.info("Get user by id controller layer",id);
-		Optional<User> retrived_user= taskSer.getByUserId(id);
-		if(!retrived_user.isPresent()) {
-			//logger.warn("User is not found");
-			//throw new UserNotFoundException("No user found");
-			
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-		}
-		return  ResponseEntity.ok(retrived_user);
+	public ResponseEntity<?> getByUserId(@PathVariable("id") Integer id) {
+	    
+		logger.trace("Get user by id controller layer", id);
+	    
+	    // Assuming taskSer.getByUserId() fetches the user from database
+	    try {
+	        Optional<User> retrivedUser = taskSer.getByUserId(id);
+	        
+	        if (!retrivedUser.isPresent()) {
+	            logger.warn("User is not found with ID: " + id);
+	            // Instead of throwing an exception, just return a 'User Not Found' response.
+	            return new ResponseEntity<>(new ErrorResponse("User not found."), HttpStatus.NOT_FOUND);
+	        }
+	        
+	        return ResponseEntity.ok(retrivedUser);
+
+	    } catch (UserNotFoundException e) {
+	        // Catch any other unexpected exceptions and return a generic 500 error
+	        logger.error("Error occurred while retrieving user by id: ", e);
+	        return new ResponseEntity<>(new ErrorResponse("User is not found"), HttpStatus.NOT_FOUND);
+	    }
 	}
-	
-	
-	
+
+
+	@Operation(summary = "Get All  Users")
+    @ApiResponse(responseCode = "200", description = "Ok Retrived All Users")
 	@GetMapping("/getAllUsers")
 	public ResponseEntity<List<User>> AllUsers(){
-		logger.info("getAll users");
+		logger.info("getAll users ");
 		List<User> all_users=taskSer.getAllUsers();
 		if(all_users.isEmpty()) {
 			return null;

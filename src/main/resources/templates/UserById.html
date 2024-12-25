@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Get User by ID</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <h1>Enter User ID to View Profile</h1>
+    <form action="/api/myassignment/ViewUserById" method="GET">
+        <label for="id">User ID:</label>
+        <input type="number" name="id" id="id" required>
+        <button type="submit">Submit</button>
+    </form>
+    <p th:if="${error}" style="color: red;">${error}</p>
+</body>
+</html>

@@ -3,32 +3,92 @@ plugins {
     id 'war'
     id 'org.springframework.boot' version '3.4.0'
     id 'io.spring.dependency-management' version '1.1.6'
+    //id 'scala'  // Add the Scala plugin for Scala support
+    id 'io.gatling.gradle' version '3.13.1'
+   // id 'org.hidetake.swagger.generator' version '2.19.2'
+    
 }
- 
+
+//apply plugin: 'scala'
 group = 'com.demo'
 version = '0.0.1-SNAPSHOT'
+
+//java {
+    //sourceCompatibility = JavaVersion.VERSION_18
+//}
  
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
+        
     }
+     
 }
  
 repositories {
     mavenCentral()
+  
 }
 dependencies {
+	
+	  implementation 'org.springframework.boot:spring-boot-starter-web'
+  	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
+  	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+  	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+    //swagger and CodeGenAi
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0'  // Latest Springdoc OpenAPI version
+     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2' 
+	
 
-	testImplementation 'io.cucumber:cucumber-java:7.10.0'
-    testImplementation 'io.cucumber:cucumber-spring:7.10.0'
-  
-    testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.10.0'
+	
     
-     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+
+	// https://mvnrepository.com/artifact/org.thymeleaf/thymeleaf
+	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	
+	
+	//spring batch
+	 implementation 'org.springframework.boot:spring-boot-starter-batch'
+	 testImplementation 'org.springframework.batch:spring-batch-test'
+	 implementation 'org.springframework.batch:spring-batch-core'
+	 
+	// developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	 implementation "org.apache.commons:commons-csv:1.5"
+	 
+	 
+	//gatling
+	
+	implementation 'io.gatling:gatling-core:3.13.1'
+    implementation 'io.gatling:gatling-http:3.13.1'// Gatling HTTP module
+    //testimplementation 'org.scala-lang:scala-library:2.13.10'
+    implementation 'io.gatling.highcharts:gatling-charts-highcharts:3.13.1'
+    implementation  'com.typesafe:config:1.3.1'
+    //testimplementation 'io.gatling:gatling-jms-java:3.13.1'
     
-     //testImplementation 'io.cucumber:cucumber-gherkin:7.10.0'
     
-    testImplementation 'com.github.tomakehurst:wiremock:3.10.0'
+ 
+   
+	testImplementation 'io.cucumber:cucumber-java:7.10.0'  // Cucumber step definitions
+    testImplementation 'io.cucumber:cucumber-junit-platform-engine:7.10.0' // JUnit 5 integration for Cucumber
+    testImplementation 'io.cucumber:cucumber-spring:7.10.0'  // Optional: Cucumber + Spring integration (if needed)
+    
+    
+    
+    // JUnit 5 dependencies (needed for Cucumber with JUnit 5)
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
+ 
+    // MOXy - JAXB implementation for JSON
+    implementation 'org.eclipse.persistence:org.eclipse.persistence.moxy:2.7.7'
+ 
+    // JAXB API - Required for JAXB annotations and classes
+    implementation 'javax.xml.bind:jaxb-api:2.3.1'
+    implementation 'javax.json:javax.json-api:1.1.4'
+    implementation 'org.glassfish:javax.json:1.1.4'
+   
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.3'
+    
+     //wireMock
+    //testImplementation 'com.github.tomakehurst:wiremock:3.10.0'
     
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -46,7 +106,7 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
     
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.0'
-    implementation 'org.springframework.boot:spring-boot-starter-data-rest'
+    //implementation 'org.springframework.boot:spring-boot-starter-data-rest'
     
     // Mockito Core for mocking objects
     testImplementation 'org.mockito:mockito-core:5.5.0'
@@ -55,8 +115,20 @@ dependencies {
     // Mockito with JUnit 5 support
    // testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.2'
 }
- 
+
+gatling {
+  enterprise {
+    // Enterprise Cloud (https://cloud.gatling.io/) configuration reference: https://docs.gatling.io/reference/integrations/build-tools/gradle-plugin/#running-your-simulations-on-gatling-enterprise-cloud
+  }
+}
+
+
+
+
+  
 tasks.withType(JavaCompile) {
     options.annotationProcessorPath = configurations.annotationProcessor
 }
