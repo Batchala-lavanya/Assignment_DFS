@@ -28,7 +28,7 @@ public class TaskletBatchConfig {
   
 	
 	public TaskletBatchConfig(JobRepository jobRepository, PlatformTransactionManager transactionManager,
-			taskRepository taskRepo, EntityManagerFactory entityManagerFactory) {
+			taskRepository taskRepo,EntityManagerFactory entityManagerFactory) {
 		super();
 		this.jobRepository = jobRepository;
 		this.transactionManager = transactionManager;

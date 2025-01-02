@@ -5,7 +5,8 @@ plugins {
     id 'io.spring.dependency-management' version '1.1.6'
     //id 'scala'  // Add the Scala plugin for Scala support
     id 'io.gatling.gradle' version '3.13.1'
-   // id 'org.hidetake.swagger.generator' version '2.19.2'
+    id 'org.openapi.generator' version '6.3.0'
+    id 'au.com.dius.pact' version '4.3.10'
     
 }
 
@@ -13,10 +14,7 @@ plugins {
 group = 'com.demo'
 version = '0.0.1-SNAPSHOT'
 
-//java {
-    //sourceCompatibility = JavaVersion.VERSION_18
-//}
- 
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(17)
@@ -30,8 +28,15 @@ repositories {
   
 }
 dependencies {
+
 	
-	  implementation 'org.springframework.boot:spring-boot-starter-web'
+	
+	implementation 'au.com.dius.pact.provider:junit5spring:4.5.1'
+	implementation 'au.com.dius.pact.consumer:junit5:4.3.14'
+	
+	
+	//zipkin
+	implementation 'org.springframework.boot:spring-boot-starter-web'
   	implementation 'io.micrometer:micrometer-tracing-bridge-brave'
   	implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
   	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
@@ -127,10 +132,27 @@ gatling {
 
 
 
+task generateOpenApiCode(type: org.openapitools.generator.gradle.plugin.tasks.GenerateTask) {
+    group = "build"
+    description = "Generates Java code from OpenAPI specification"
+    //dependsOn build  // Make sure this task runs after the build
+    generatorName = "spring"  // Specify 'spring' for Spring Boot code generation
+    inputSpec = "$rootDir/api-docs.yaml"  // Path to your OpenAPI YAML file
+    outputDir = "$buildDir/generated"  // Directory to output generated files
+    apiPackage = "com.demo.task.api"  // API package name
+    modelPackage = "com.demo.task.model"  // Model package name
+    configOptions = [
+        sourceFolder: "swagger",  // Folder for sources
+        java8: "true",  // Java 8 compatibility
+        interfaceOnly: "false",  // Generate only interfaces, not implementation
+        useBeanValidation: "true"  // Enable Bean Validation annotations
+    ]
+    validateSpec = false 
+}
 
-  
 tasks.withType(JavaCompile) {
     options.annotationProcessorPath = configurations.annotationProcessor
+    options.encoding = 'UTF-8'
 }
  
 tasks.named('test') {

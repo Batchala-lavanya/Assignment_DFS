@@ -1,7 +1,7 @@
 spring:
   application:
     name: MyAssignment
-
+ 
   batch:
     jdbc:
       initialize-schema: always  
@@ -51,6 +51,11 @@ management:
 springdoc:
   api-docs:
     enabled: true
+    path: /v3/api-docs
+    format: yaml
+    title: My API
+    description: API documentation for My Application
+    version: OPENAPI_3_0
   swagger-ui:
     enabled: true
     path: /swagger-ui.html 
@@ -66,5 +71,9 @@ micrometer:
         endpoint: http://localhost:9411  # Zipkin endpoint to send traces
     sampler:
       probability: 1.0 
+      
+      
+product-service:
+  url: http://localhost:8089
 server:
   port: 8088

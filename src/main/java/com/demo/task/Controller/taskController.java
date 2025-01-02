@@ -36,8 +36,7 @@ public class taskController {
 	
 	@Autowired
 	public taskService taskSer;
-	
-	
+
 	
 	public taskController(taskService taskSer) {
 		super();
